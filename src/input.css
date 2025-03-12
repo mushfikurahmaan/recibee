@@ -109,6 +109,24 @@
         animation: fadeIn 0.5s ease forwards;
     }
 
+    .animate-hero-text {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: heroTextFadeIn 0.8s ease forwards;
+    }
+
+    .text-primary {
+        animation: highlightText 1.5s ease-in-out infinite;
+    }
+
+    .delay-200 {
+        animation-delay: 200ms;
+    }
+
+    .delay-400 {
+        animation-delay: 400ms;
+    }
+
     @keyframes float {
         0% { transform: translateY(0px); }
         50% { transform: translateY(-10px); }
@@ -118,5 +136,27 @@
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heroTextFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes highlightText {
+        0%, 100% {
+            color: #FF9500;
+            transform: translateY(0);
+        }
+        50% {
+            color: #FF8000;
+            transform: translateY(-2px);
+        }
     }
 } 
