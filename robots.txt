@@ -1,0 +1,16 @@
+# Recibee - Recipe Detection App
+# https://recibee.app
+
+User-agent: *
+Allow: /
+Allow: /dist/
+Allow: /public/
+Disallow: /private/
+Disallow: /.git/
+Disallow: /node_modules/
+
+# Sitemap
+Sitemap: https://recibee.app/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 10 

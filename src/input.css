@@ -116,26 +116,7 @@
     }
 
     .text-primary {
-        position: relative;
-        display: inline-block;
-        padding: 0 4px;
         color: #FF9500;
-    }
-
-    .text-primary::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: #FF9500;
-        opacity: 0;
-        transform: scaleX(0);
-        transform-origin: left;
-        animation: slideHighlight 1.5s ease-in-out forwards;
-        animation-delay: 1s;
-        z-index: -1;
     }
 
     .delay-200 {
@@ -165,26 +146,6 @@
         to {
             opacity: 1;
             transform: translateY(0);
-        }
-    }
-
-    @keyframes slideHighlight {
-        0% {
-            opacity: 0;
-            transform: scaleX(0);
-        }
-        40% {
-            opacity: 0.2;
-            transform: scaleX(1);
-        }
-        60% {
-            opacity: 0.2;
-            transform: scaleX(1);
-        }
-        100% {
-            opacity: 0;
-            transform: scaleX(0);
-            transform-origin: right;
         }
     }
 } 
