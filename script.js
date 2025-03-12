@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const emailInput = document.getElementById('email');
     const formStatus = document.getElementById('formStatus');
     const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
 
     // Counter Animation
     const counter = document.getElementById('cookCounter');
@@ -48,84 +49,99 @@ document.addEventListener('DOMContentLoaded', function() {
         }, firstPhaseStep);
     }
 
-    // Function to show success popup
-    function showSuccess() {
-        successPopup.classList.remove('hidden');
-        setTimeout(() => {
-            popupContent.style.transform = 'scale(1)';
-            popupContent.style.opacity = '1';
-        }, 10);
-    }
+    // Initialize Supabase client
+    const supabaseUrl = 'YOUR_SUPABASE_URL'
+    const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey)
 
-    // Function to hide popup
-    function hidePopup() {
-        popupContent.style.transform = 'scale(0.95)';
-        popupContent.style.opacity = '0';
-        setTimeout(() => {
-            successPopup.classList.add('hidden');
-        }, 300);
-    }
+    // Animate cook counter
+    function animateCounter(element, target, duration = 2000) {
+        const start = parseInt(element.textContent.replace(/,/g, ''))
+        const increment = (target - start) / (duration / 16)
+        let current = start
 
-    // Function to show error
-    function showError(message) {
-        errorMessage.textContent = message;
-        errorMessage.classList.remove('hidden');
-        formStatus.classList.remove('hidden');
-        setTimeout(() => {
-            errorMessage.classList.add('hidden');
-            formStatus.classList.add('hidden');
-        }, 5000);
+        const updateCounter = () => {
+            current += increment
+            if ((increment > 0 && current >= target) || (increment < 0 && current <= target)) {
+                element.textContent = target.toLocaleString()
+                return
+            }
+            element.textContent = Math.round(current).toLocaleString()
+            requestAnimationFrame(updateCounter)
+        }
+
+        updateCounter()
     }
 
     // Handle form submission
-    waitlistForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+    waitlistForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
         
-        const email = emailInput.value.trim();
+        const email = e.target.email.value
+        const submitButton = e.target.querySelector('button[type="submit"]')
         
-        if (!isValidEmail(email)) {
-            showError('Please enter a valid email address.');
-            return;
+        // Disable form while submitting
+        submitButton.disabled = true
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...'
+        
+        try {
+            // Insert email into Supabase
+            const { data, error } = await supabase
+                .from('waitlist')
+                .insert([{ email, joined_at: new Date() }])
+
+            if (error) throw error
+
+            // Show success message
+            successPopup.classList.remove('hidden')
+            setTimeout(() => {
+                popupContent.classList.remove('scale-95', 'opacity-0')
+            }, 100)
+
+            // Update counter
+            const currentCount = parseInt(counter.textContent.replace(/,/g, ''))
+            animateCounter(counter, currentCount + 1)
+
+            // Reset form
+            waitlistForm.reset()
+
+        } catch (error) {
+            console.error('Error:', error)
+            errorMessage.classList.remove('hidden')
+            formStatus.classList.remove('hidden')
+            setTimeout(() => {
+                errorMessage.classList.add('hidden')
+                formStatus.classList.add('hidden')
+            }, 5000)
+        } finally {
+            // Re-enable form
+            submitButton.disabled = false
+            submitButton.textContent = 'Join Waitlist'
         }
+    })
 
-        // Show loading state
-        const submitButton = waitlistForm.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.textContent;
-        submitButton.textContent = 'Submitting...';
-        submitButton.disabled = true;
-
-        // Simulate submission delay
+    // Handle popup close
+    closePopupButton.addEventListener('click', () => {
+        popupContent.classList.add('scale-95', 'opacity-0')
         setTimeout(() => {
-            showSuccess();
-            waitlistForm.reset();
-            
-            // Reset button state
-            submitButton.textContent = originalButtonText;
-            submitButton.disabled = false;
-        }, 1000);
-    });
-
-    // Close popup when clicking the close button
-    closePopupButton.addEventListener('click', hidePopup);
+            successPopup.classList.add('hidden')
+        }, 300)
+    })
 
     // Close popup when clicking outside
-    successPopup.addEventListener('click', function(e) {
+    successPopup.addEventListener('click', (e) => {
         if (e.target === successPopup) {
-            hidePopup();
+            popupContent.classList.add('scale-95', 'opacity-0')
+            setTimeout(() => {
+                successPopup.classList.add('hidden')
+            }, 300)
         }
-    });
+    })
 
-    // Close popup with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && !successPopup.classList.contains('hidden')) {
-            hidePopup();
-        }
-    });
-
-    // Email validation function
-    function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
+    // Initialize counter animation on load
+    document.addEventListener('DOMContentLoaded', () => {
+        animateCounter(counter, 1900)
+    })
 
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
