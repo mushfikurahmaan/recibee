@@ -133,7 +133,8 @@
         opacity: 0;
         transform: scaleX(0);
         transform-origin: left;
-        animation: slideHighlight 2s ease-in-out infinite;
+        animation: slideHighlight 1.5s ease-in-out forwards;
+        animation-delay: 1s;
         z-index: -1;
     }
 
@@ -172,7 +173,11 @@
             opacity: 0;
             transform: scaleX(0);
         }
-        50% {
+        40% {
+            opacity: 0.2;
+            transform: scaleX(1);
+        }
+        60% {
             opacity: 0.2;
             transform: scaleX(1);
         }
