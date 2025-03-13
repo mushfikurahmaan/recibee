@@ -8,6 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const formStatus = document.getElementById('formStatus');
     const errorMessage = document.getElementById('errorMessage');
     const successMessage = document.getElementById('successMessage');
+    const submitButton = waitlistForm.querySelector('button[type="submit"]');
+
+    // Add transition classes to button
+    submitButton.classList.add('transition-all', 'duration-300', 'ease-in-out');
+
+    // Check if user has already joined
+    if (localStorage.getItem('waitlistJoined')) {
+        setSuccessState();
+    }
 
     // Counter Animation
     const counter = document.getElementById('cookCounter');
@@ -50,27 +59,47 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Initialize Supabase client
-    const supabaseUrl = 'https://nrucuekfxsgsiguelnuy.supabase.co'
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ydWN1ZWtmeHNnc2lndWVsbnV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE4MzcwNDMsImV4cCI6MjA1NzQxMzA0M30.BfMvbOyB6AflVUWGyL88B7Eeo6rW9fXBbFVYnuHU3QM'
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
+    const supabaseUrl = process.env.SUPABASE_URL || '';
+    const supabaseKey = process.env.SUPABASE_KEY || '';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Animate cook counter
-    function animateCounter(element, target, duration = 2000) {
-        const start = parseInt(element.textContent.replace(/,/g, ''))
-        const increment = (target - start) / (duration / 16)
-        let current = start
+    // Function to set success state with animation
+    function setSuccessState() {
+        submitButton.style.width = `${submitButton.offsetWidth}px`; // Preserve width
+        submitButton.classList.add('success-animation');
+        
+        // Fade out current text
+        submitButton.style.opacity = '0';
+        setTimeout(() => {
+            submitButton.innerHTML = '<i class="fas fa-check"></i> You\'re Set';
+            submitButton.classList.remove('btn-primary');
+            submitButton.classList.add('btn-success');
+            submitButton.style.opacity = '1';
+        }, 300);
 
-        const updateCounter = () => {
-            current += increment
-            if ((increment > 0 && current >= target) || (increment < 0 && current <= target)) {
-                element.textContent = target.toLocaleString()
-                return
-            }
-            element.textContent = Math.round(current).toLocaleString()
-            requestAnimationFrame(updateCounter)
-        }
+        submitButton.disabled = true;
+        emailInput.disabled = true;
+    }
 
-        updateCounter()
+    // Function to set loading state with animation
+    function setLoadingState() {
+        submitButton.style.width = `${submitButton.offsetWidth}px`; // Preserve width
+        submitButton.style.opacity = '0';
+        setTimeout(() => {
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
+            submitButton.style.opacity = '1';
+        }, 300);
+        submitButton.disabled = true;
+    }
+
+    // Function to reset button state with animation
+    function resetButtonState() {
+        submitButton.style.opacity = '0';
+        setTimeout(() => {
+            submitButton.innerHTML = 'Join Waitlist';
+            submitButton.disabled = false;
+            submitButton.style.opacity = '1';
+        }, 300);
     }
 
     // Email validation function
@@ -94,52 +123,46 @@ document.addEventListener('DOMContentLoaded', function() {
     waitlistForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const email = emailInput.value.trim();
-        const submitButton = waitlistForm.querySelector('button[type="submit"]');
+        if (localStorage.getItem('waitlistJoined')) {
+            return;
+        }
         
-        // Validate email
+        const email = emailInput.value.trim();
+        
         if (!isValidEmail(email)) {
             showError('Please enter a valid email address');
             return;
         }
         
-        // Disable form while submitting
-        submitButton.disabled = true;
-        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
+        setLoadingState();
         
         try {
-            // Insert email into Supabase
             const { data, error } = await supabase
                 .from('waitlist')
                 .insert([{ email }]);
 
             if (error) {
-                if (error.code === '23505') { // Unique constraint violation
+                if (error.code === '23505') {
                     showError('This email is already registered');
                 } else {
                     showError('Something went wrong. Please try again.');
                 }
+                resetButtonState();
                 return;
             }
 
-            // Show success popup
-            successPopup.classList.remove('hidden');
-            popupContent.classList.remove('scale-95', 'opacity-0');
+            setSuccessState();
+            
+            localStorage.setItem('waitlistJoined', 'true');
+            localStorage.setItem('waitlistEmail', email);
 
-            // Update counter
             const currentCount = parseInt(counter.textContent.replace(/,/g, ''));
             animateCounter(counter, currentCount + 1);
-
-            // Reset form
-            waitlistForm.reset();
 
         } catch (error) {
             console.error('Error:', error);
             showError('Something went wrong. Please try again.');
-        } finally {
-            // Re-enable form
-            submitButton.disabled = false;
-            submitButton.textContent = 'Join Waitlist';
+            resetButtonState();
         }
     });
 
@@ -212,4 +235,16 @@ document.addEventListener('DOMContentLoaded', function() {
             mobileMenu.classList.toggle('hidden');
         });
     }
-}); 
+});
+
+// Add this CSS to your input.css file
+const style = document.createElement('style');
+style.textContent = `
+    .success-animation {
+        transition: all 0.3s ease-in-out;
+    }
+    .success-animation:disabled {
+        cursor: default;
+    }
+`;
+document.head.appendChild(style); 
