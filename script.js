@@ -1,3 +1,59 @@
+// Error Tracking Utility
+class ErrorTracker {
+    static init() {
+        window.addEventListener('error', this.handleError.bind(this));
+        window.addEventListener('unhandledrejection', this.handlePromiseError.bind(this));
+    }
+
+    static handleError(event) {
+        const error = {
+            message: event.message,
+            source: event.filename,
+            lineNumber: event.lineno,
+            columnNumber: event.colno,
+            stack: event.error?.stack,
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+        };
+
+        this.logError(error);
+    }
+
+    static handlePromiseError(event) {
+        const error = {
+            message: event.reason?.message || 'Unhandled Promise Rejection',
+            stack: event.reason?.stack,
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+        };
+
+        this.logError(error);
+    }
+
+    static logError(error) {
+        // Log to console
+        console.error('Error tracked:', error);
+
+        // Send to Google Analytics
+        if (window.gtag) {
+            gtag('event', 'error', {
+                'event_category': 'JavaScript Error',
+                'event_label': error.message,
+                'value': 1
+            });
+        }
+
+        // You can add your custom error tracking endpoint here
+        // fetch('/api/error-tracking', {
+        //     method: 'POST',
+        //     body: JSON.stringify(error)
+        // });
+    }
+}
+
+// Initialize error tracking
+ErrorTracker.init();
+
 document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const successPopup = document.getElementById('successPopup');
