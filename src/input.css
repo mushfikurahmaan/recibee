@@ -64,10 +64,12 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .feature-card:hover {
-        @apply -translate-y-1;
-        box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
-        border-color: rgba(26, 26, 26, 0.2);
+    @media (hover: hover) and (min-width: 768px) {
+        .feature-card:hover {
+            @apply -translate-y-1;
+            box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
+            border-color: rgba(26, 26, 26, 0.2);
+        }
     }
 
     /* Recipe cards */
@@ -76,10 +78,12 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .recipe-card:hover {
-        @apply -translate-y-1;
-        box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
-        border-color: rgba(26, 26, 26, 0.2);
+    @media (hover: hover) and (min-width: 768px) {
+        .recipe-card:hover {
+            @apply -translate-y-1;
+            box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
+            border-color: rgba(26, 26, 26, 0.2);
+        }
     }
 
     .recipe-card .content {
@@ -92,10 +96,12 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .testimonial-card:hover {
-        @apply -translate-y-1;
-        box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
-        border-color: rgba(26, 26, 26, 0.2);
+    @media (hover: hover) and (min-width: 768px) {
+        .testimonial-card:hover {
+            @apply -translate-y-1;
+            box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
+            border-color: rgba(26, 26, 26, 0.2);
+        }
     }
 
     /* How It Works cards */
@@ -117,21 +123,23 @@
         transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .waitlist-card:hover {
-        border-color: rgba(26, 26, 26, 0.2);
+    @media (hover: hover) and (min-width: 768px) {
+        .waitlist-card:hover {
+            border-color: rgba(26, 26, 26, 0.2);
+        }
     }
 
     /* Notification cards */
     .notification-card {
-        @apply card-base p-4;
-        transform: translateY(0);
-        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        @apply card-base p-4 bg-white shadow-sm;
+        position: relative;
+        z-index: 20;
+        transition: all 0.3s ease;
     }
 
     .notification-card:hover {
-        transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 8px 20px -5px rgba(26, 26, 26, 0.12);
-        border-color: rgba(26, 26, 26, 0.2);
+        transform: translateY(-5px);
+        @apply shadow-lg;
     }
 
     /* Popup Styles */
