@@ -3,23 +3,203 @@ document.addEventListener('DOMContentLoaded', function() {
     const successPopup = document.getElementById('successPopup');
     const popupContent = document.getElementById('popupContent');
     const closePopupButton = document.getElementById('closePopup');
-    const waitlistForm = document.getElementById('waitlistForm');
-    const emailInput = document.getElementById('email');
-    const formStatus = document.getElementById('formStatus');
-    const errorMessage = document.getElementById('errorMessage');
-    const successMessage = document.getElementById('successMessage');
-    const submitButton = waitlistForm.querySelector('button[type="submit"]');
+    const waitlistForm = document.querySelector('#waitlistForm');
+    const emailInput = document.querySelector('#email');
+    const formStatus = document.querySelector('#formStatus');
+    const errorMessage = document.querySelector('#errorMessage');
+    const successMessage = document.querySelector('#successMessage');
+    const counter = document.querySelector('#cookCounter');
 
-    // Add transition classes to button
-    submitButton.classList.add('transition-all', 'duration-300', 'ease-in-out');
+    // Initialize Supabase client with direct values
+    const supabase = window.supabase.createClient(
+        'https://nrucuekfxsgsiguelnuy.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ydWN1ZWtmeHNnc2lndWVsbnV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE4MzcwNDMsImV4cCI6MjA1NzQxMzA0M30.BfMvbOyB6AflVUWGyL88B7Eeo6rW9fXBbFVYnuHU3QM'
+    );
 
-    // Check if user has already joined
-    if (localStorage.getItem('waitlistJoined')) {
-        setSuccessState();
+    // Initialize form handling
+    if (waitlistForm && emailInput) {
+        const submitButton = waitlistForm.querySelector('button[type="submit"]');
+        
+        // Add transition classes to button
+        if (submitButton) {
+            submitButton.classList.add('transition-all', 'duration-300', 'ease-in-out');
+        }
+
+        // Check if user has already joined
+        if (localStorage.getItem('waitlistJoined')) {
+            setSuccessState(submitButton, emailInput);
+        }
+
+        // Handle form submission
+        waitlistForm.addEventListener('submit', handleSubmit);
+
+        // Prevent default form submission
+        waitlistForm.onsubmit = function() {
+            return false;
+        };
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (!submitButton || !emailInput) return;
+            
+            if (localStorage.getItem('waitlistJoined')) {
+                return;
+            }
+            
+            const email = emailInput.value.trim();
+            
+            if (!isValidEmail(email)) {
+                showError('Please enter a valid email address (e.g., user@domain.com)');
+                return;
+            }
+            
+            setLoadingState(submitButton);
+            
+            try {
+                const { data, error } = await supabase
+                    .from('waitlist')
+                    .insert([{ email }]);
+
+                if (error) {
+                    if (error.code === '23505') {
+                        showError('This email is already registered');
+                    } else {
+                        showError('Something went wrong. Please try again.');
+                    }
+                    resetButtonState(submitButton);
+                    return;
+                }
+
+                setSuccessState(submitButton, emailInput);
+                localStorage.setItem('waitlistJoined', 'true');
+                localStorage.setItem('waitlistEmail', email);
+
+                // Update counter
+                if (counter) {
+                    const currentCount = parseInt(counter.textContent.replace(/,/g, ''));
+                    counter.textContent = (currentCount + 1).toLocaleString();
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Something went wrong. Please try again.');
+                resetButtonState(submitButton);
+            }
+        }
+    }
+
+    // Email validation function
+    function isValidEmail(email) {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
+    // Show error message
+    function showError(message) {
+        if (errorMessage && formStatus) {
+            errorMessage.textContent = message;
+            errorMessage.classList.remove('hidden');
+            formStatus.classList.remove('hidden');
+            setTimeout(() => {
+                errorMessage.classList.add('hidden');
+                formStatus.classList.add('hidden');
+            }, 5000);
+        }
+    }
+
+    // Function to set success state with animation
+    function setSuccessState(button, input) {
+        if (!button || !input) return;
+        
+        // Preserve button width
+        const buttonWidth = button.offsetWidth;
+        button.style.width = `${buttonWidth}px`;
+        
+        // Disable inputs immediately
+        button.disabled = true;
+        input.disabled = true;
+
+        // Fade out text only
+        const textSpan = document.createElement('span');
+        textSpan.style.opacity = '1';
+        textSpan.style.transition = 'opacity 0.3s ease';
+        textSpan.innerHTML = button.innerHTML;
+        button.innerHTML = '';
+        button.appendChild(textSpan);
+
+        // Fade out current text
+        setTimeout(() => {
+            textSpan.style.opacity = '0';
+        }, 0);
+
+        // Fade in new text
+        setTimeout(() => {
+            button.innerHTML = '<i class="fas fa-check"></i> You\'re Set';
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-success');
+        }, 300);
+    }
+
+    // Function to set loading state with animation
+    function setLoadingState(button) {
+        if (!button) return;
+        
+        // Preserve button width
+        const buttonWidth = button.offsetWidth;
+        button.style.width = `${buttonWidth}px`;
+        
+        // Disable button immediately
+        button.disabled = true;
+
+        // Fade out text only
+        const textSpan = document.createElement('span');
+        textSpan.style.opacity = '1';
+        textSpan.style.transition = 'opacity 0.3s ease';
+        textSpan.innerHTML = button.innerHTML;
+        button.innerHTML = '';
+        button.appendChild(textSpan);
+
+        // Fade out current text
+        setTimeout(() => {
+            textSpan.style.opacity = '0';
+        }, 0);
+
+        // Fade in new text
+        setTimeout(() => {
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
+        }, 300);
+    }
+
+    // Function to reset button state with animation
+    function resetButtonState(button) {
+        if (!button) return;
+        
+        // Fade out text only
+        const textSpan = document.createElement('span');
+        textSpan.style.opacity = '1';
+        textSpan.style.transition = 'opacity 0.3s ease';
+        textSpan.innerHTML = button.innerHTML;
+        button.innerHTML = '';
+        button.appendChild(textSpan);
+
+        // Fade out current text
+        setTimeout(() => {
+            textSpan.style.opacity = '0';
+        }, 0);
+
+        // Fade in new text
+        setTimeout(() => {
+            button.innerHTML = 'Join Waitlist';
+            button.classList.remove('btn-success');
+            button.classList.add('btn-primary');
+            button.disabled = false;
+            button.style.width = ''; // Reset width
+        }, 300);
     }
 
     // Counter Animation
-    const counter = document.getElementById('cookCounter');
     if (counter) {
         const firstPhaseStart = 1900;
         const firstPhaseEnd = 2000;
@@ -58,137 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, firstPhaseStep);
     }
 
-    // Initialize Supabase client
-    const supabaseUrl = process.env.SUPABASE_URL || '';
-    const supabaseKey = process.env.SUPABASE_KEY || '';
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-    // Function to set success state with animation
-    function setSuccessState() {
-        submitButton.style.width = `${submitButton.offsetWidth}px`; // Preserve width
-        submitButton.classList.add('success-animation');
-        
-        // Fade out current text
-        submitButton.style.opacity = '0';
-        setTimeout(() => {
-            submitButton.innerHTML = '<i class="fas fa-check"></i> You\'re Set';
-            submitButton.classList.remove('btn-primary');
-            submitButton.classList.add('btn-success');
-            submitButton.style.opacity = '1';
-        }, 300);
-
-        submitButton.disabled = true;
-        emailInput.disabled = true;
-    }
-
-    // Function to set loading state with animation
-    function setLoadingState() {
-        submitButton.style.width = `${submitButton.offsetWidth}px`; // Preserve width
-        submitButton.style.opacity = '0';
-        setTimeout(() => {
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
-            submitButton.style.opacity = '1';
-        }, 300);
-        submitButton.disabled = true;
-    }
-
-    // Function to reset button state with animation
-    function resetButtonState() {
-        submitButton.style.opacity = '0';
-        setTimeout(() => {
-            submitButton.innerHTML = 'Join Waitlist';
-            submitButton.disabled = false;
-            submitButton.style.opacity = '1';
-        }, 300);
-    }
-
-    // Email validation function
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email) && email.includes('.');
-    }
-
-    // Show error message
-    function showError(message) {
-        errorMessage.textContent = message;
-        errorMessage.classList.remove('hidden');
-        formStatus.classList.remove('hidden');
-        setTimeout(() => {
-            errorMessage.classList.add('hidden');
-            formStatus.classList.add('hidden');
-        }, 5000);
-    }
-
-    // Handle form submission
-    waitlistForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        if (localStorage.getItem('waitlistJoined')) {
-            return;
-        }
-        
-        const email = emailInput.value.trim();
-        
-        if (!isValidEmail(email)) {
-            showError('Please enter a valid email address');
-            return;
-        }
-        
-        setLoadingState();
-        
-        try {
-            const { data, error } = await supabase
-                .from('waitlist')
-                .insert([{ email }]);
-
-            if (error) {
-                if (error.code === '23505') {
-                    showError('This email is already registered');
-                } else {
-                    showError('Something went wrong. Please try again.');
-                }
-                resetButtonState();
-                return;
-            }
-
-            setSuccessState();
-            
-            localStorage.setItem('waitlistJoined', 'true');
-            localStorage.setItem('waitlistEmail', email);
-
-            const currentCount = parseInt(counter.textContent.replace(/,/g, ''));
-            animateCounter(counter, currentCount + 1);
-
-        } catch (error) {
-            console.error('Error:', error);
-            showError('Something went wrong. Please try again.');
-            resetButtonState();
-        }
-    });
-
-    // Handle popup close
-    closePopupButton.addEventListener('click', () => {
-        popupContent.classList.add('scale-95', 'opacity-0')
-        setTimeout(() => {
-            successPopup.classList.add('hidden')
-        }, 300)
-    })
-
-    // Close popup when clicking outside
-    successPopup.addEventListener('click', (e) => {
-        if (e.target === successPopup) {
-            popupContent.classList.add('scale-95', 'opacity-0')
-            setTimeout(() => {
-                successPopup.classList.add('hidden')
-            }, 300)
-        }
-    })
-
-    // Initialize counter animation on load
-    document.addEventListener('DOMContentLoaded', () => {
-        animateCounter(counter, 1900)
-    })
-
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -199,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (targetElement) {
                 window.scrollTo({
-                    top: targetElement.offsetTop - 80, // Offset for fixed header
+                    top: targetElement.offsetTop - 80,
                     behavior: 'smooth'
                 });
             }
@@ -237,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Add this CSS to your input.css file
+// Add success animation styles
 const style = document.createElement('style');
 style.textContent = `
     .success-animation {
