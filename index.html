@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Primary Meta Tags -->
-    <title>Recibee - Detect Cook Serve</title>
+    <title>Recibee - Capture Detect Cook</title>
     <meta name="title" content="Recibee - Detect Cook Serve">
     <meta name="description" content="Transform your cooking experience with AI-powered recipe suggestions. Snap a picture of your ingredients & get instant recipe suggestions!">
     
@@ -287,8 +287,12 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Recipe Card 1 -->
-                <div class="recipe-card">
-                    <img src="https://placehold.co/600x400/1A1A1A/FFFFFF?text=Recipe+1" alt="Recipe 1" class="w-full h-64 object-cover">
+                <div class="recipe-card overflow-hidden">
+                    <div class="relative h-48 sm:h-56 md:h-64 bg-gray-50 overflow-hidden rounded-2xl flex items-center justify-center p-4">
+                        <img src="public/images/french-toast.jpg" 
+                             alt="French Toast with Berries and Whipped Cream" 
+                             class="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-500 ease-in-out">
+                    </div>
                     <div class="content">
                         <div class="flex items-center gap-2 mb-4">
                             <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">5 ingredients</span>
@@ -296,7 +300,7 @@
                             <span class="tag-pill easy">Easy</span>
                         </div>
                         <h3 class="text-xl font-bold text-dark mb-2 font-choplin">French Toast</h3>
-                        <p class="text-dark/70 mb-4 font-inter">Eggs, milk, and cinnamon come together in this quick and easy French toast recipe, perfect for a delicious breakfast.</p>
+                        <p class="text-dark/70 mb-4 font-inter">Golden-brown French toast served with fresh berries and whipped cream, perfect for a delicious breakfast or brunch.</p>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Chef" class="w-8 h-8 rounded-full">
@@ -310,8 +314,12 @@
                 </div>
 
                 <!-- Recipe Card 2 -->
-                <div class="recipe-card">
-                    <img src="https://placehold.co/600x400/1A1A1A/FFFFFF?text=Recipe+2" alt="Recipe 2" class="w-full h-64 object-cover">
+                <div class="recipe-card overflow-hidden">
+                    <div class="relative h-48 sm:h-56 md:h-64 bg-gray-50 overflow-hidden rounded-2xl flex items-center justify-center p-4">
+                        <img src="public/images/biryani.jpg" 
+                             alt="Chicken Biryani" 
+                             class="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-500 ease-in-out">
+                    </div>
                     <div class="content">
                         <div class="flex items-center gap-2 mb-4">
                             <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">10 ingredients</span>
@@ -333,16 +341,20 @@
                 </div>
 
                 <!-- Recipe Card 3 -->
-                <div class="recipe-card">
-                    <img src="https://placehold.co/600x400/1A1A1A/FFFFFF?text=Recipe+3" alt="Recipe 3" class="w-full h-64 object-cover">
+                <div class="recipe-card overflow-hidden">
+                    <div class="relative h-48 sm:h-56 md:h-64 bg-gray-50 overflow-hidden rounded-2xl flex items-center justify-center p-4">
+                        <img src="public/images/fruit-salad.jpg" 
+                             alt="Fresh Fruit Salad with Avocado" 
+                             class="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-500 ease-in-out">
+                    </div>
                     <div class="content">
                         <div class="flex items-center gap-2 mb-4">
-                            <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">5 ingredients</span>
-                            <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">10 min</span>
+                            <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">7 ingredients</span>
+                            <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">5 min</span>
                             <span class="tag-pill easy">Easy</span>
                         </div>
-                        <h3 class="text-xl font-bold text-dark mb-2 font-choplin">Fruit Salad</h3>
-                        <p class="text-dark/70 mb-4 font-inter">Fresh fruits, a touch of sweetness, and vibrant flavors come together in this quick and refreshing fruit salad, perfect for a light snack or side dish.</p>
+                        <h3 class="text-xl font-bold text-dark mb-2 font-choplin">Fresh Fruit Salad</h3>
+                        <p class="text-dark/70 mb-4 font-inter">A vibrant salad featuring fresh avocado, crisp lettuce, shredded vegetables, and crunchy cashews, topped with a zesty dressing.</p>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Chef" class="w-8 h-8 rounded-full">
