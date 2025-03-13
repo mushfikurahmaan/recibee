@@ -43,11 +43,11 @@
     }
 
     .tag-pill.easy {
-        @apply bg-[#4CAF50] text-white;
+        @apply bg-[#1E4620] text-white;
     }
 
     .tag-pill.medium {
-        @apply bg-[#FFE082] text-dark;
+        @apply bg-[#B17900] text-white;
     }
 
     /* Modern card styles */
@@ -74,20 +74,42 @@
 
     /* Recipe cards */
     .recipe-card {
-        @apply card-base overflow-hidden;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        @apply bg-white rounded-2xl overflow-hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(26, 26, 26, 0.1);
     }
 
-    @media (hover: hover) and (min-width: 768px) {
-        .recipe-card:hover {
-            @apply -translate-y-1;
-            box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
-            border-color: rgba(26, 26, 26, 0.2);
-        }
+    .recipe-card .image-container {
+        @apply w-full h-[240px] relative overflow-hidden;
+    }
+
+    .recipe-card .image-container img {
+        @apply w-full h-full object-cover;
+        transition: transform 0.5s ease;
+    }
+
+    .recipe-card .image-container img:hover {
+        @apply scale-105;
     }
 
     .recipe-card .content {
-        @apply p-6;
+        @apply p-6 flex flex-col min-h-[280px] relative;
+    }
+
+    .recipe-card .tags-container {
+        @apply flex flex-wrap gap-2 mb-4;
+    }
+
+    .recipe-card .title {
+        @apply text-xl font-bold text-dark mb-2 font-choplin;
+    }
+
+    .recipe-card .description {
+        @apply text-dark/70 font-inter mb-8;
+    }
+
+    .recipe-card .author-section {
+        @apply flex items-center justify-between absolute bottom-6 left-6 right-6 pt-4 border-t border-dark/10;
     }
 
     /* Testimonial cards */

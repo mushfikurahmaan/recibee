@@ -287,13 +287,13 @@
                 <div class="relative">
                     <div class="step-card relative z-10">
                         <div>
-                            <div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
-                                <span class="text-2xl font-bold text-dark">1</span>
-                            </div>
-                            <h3 class="text-xl font-bold text-dark mb-4 font-choplin">Take a Photo</h3>
-                            <p class="text-dark/70 font-inter">
-                                Open the app and snap a quick photo of your ingredients. Our AI will do the rest.
-                            </p>
+                        <div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
+                            <span class="text-2xl font-bold text-dark">1</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-4 font-choplin">Take a Photo</h3>
+                        <p class="text-dark/70 font-inter">
+                            Open the app and snap a quick photo of your ingredients. Our AI will do the rest.
+                        </p>
                         </div>
                     </div>
                     <div class="hidden md:block absolute top-1/2 left-full w-24 border-t-2 border-dashed border-primary/30 -translate-y-1/2"></div>
@@ -303,13 +303,13 @@
                 <div class="relative">
                     <div class="step-card relative z-10">
                         <div>
-                            <div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
-                                <span class="text-2xl font-bold text-dark">2</span>
-                            </div>
-                            <h3 class="text-xl font-bold text-dark mb-4 font-choplin">Get Suggestions</h3>
-                            <p class="text-dark/70 font-inter">
-                                Browse through personalized recipe suggestions based on your available ingredients.
-                            </p>
+                        <div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
+                            <span class="text-2xl font-bold text-dark">2</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-4 font-choplin">Get Suggestions</h3>
+                        <p class="text-dark/70 font-inter">
+                            Browse through personalized recipe suggestions based on your available ingredients.
+                        </p>
                         </div>
                     </div>
                     <div class="hidden md:block absolute top-1/2 left-full w-24 border-t-2 border-dashed border-primary/30 -translate-y-1/2"></div>
@@ -319,13 +319,13 @@
                 <div class="relative">
                     <div class="step-card relative z-10">
                         <div>
-                            <div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
-                                <span class="text-2xl font-bold text-dark">3</span>
-                            </div>
-                            <h3 class="text-xl font-bold text-dark mb-4 font-choplin">Start Cooking</h3>
-                            <p class="text-dark/70 font-inter">
-                                Follow the step-by-step instructions and create delicious meals with confidence.
-                            </p>
+                        <div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
+                            <span class="text-2xl font-bold text-dark">3</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-4 font-choplin">Start Cooking</h3>
+                        <p class="text-dark/70 font-inter">
+                            Follow the step-by-step instructions and create delicious meals with confidence.
+                        </p>
                         </div>
                     </div>
                 </div>
@@ -357,22 +357,21 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Recipe Card 1 -->
-                <div class="recipe-card overflow-hidden">
-                    <div class="relative h-48 sm:h-56 md:h-64 bg-gray-50 overflow-hidden rounded-2xl flex items-center justify-center p-4">
+                <div class="recipe-card">
+                    <div class="image-container">
                         <img src="public/images/french-toast.webp" 
                              loading="lazy"
-                             alt="Golden-brown French toast topped with fresh berries and whipped cream" 
-                             class="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-500 ease-in-out">
+                             alt="Golden-brown French toast topped with fresh berries and whipped cream">
                     </div>
                     <div class="content">
-                        <div class="flex items-center gap-2 mb-4">
+                        <div class="tags-container">
                             <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">5 ingredients</span>
                             <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">10 min</span>
-                            <span class="tag-pill easy">Easy</span>
+                            <span class="tag-pill easy px-3 py-1 rounded-md text-sm">Easy</span>
                         </div>
-                        <h3 class="text-xl font-bold text-dark mb-2 font-choplin">French Toast</h3>
-                        <p class="text-dark/70 mb-4 font-inter">Golden-brown French toast served with fresh berries and whipped cream, perfect for a delicious breakfast or brunch.</p>
-                        <div class="flex items-center justify-between">
+                        <h3 class="title">French Toast</h3>
+                        <p class="description">Golden-brown French toast served with fresh berries and whipped cream, perfect for a delicious breakfast or brunch.</p>
+                        <div class="author-section">
                             <div class="flex items-center gap-2">
                                 <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Chef" class="w-8 h-8 rounded-full">
                                 <span class="text-sm text-dark/70">By Sarah</span>
@@ -385,22 +384,21 @@
                 </div>
 
                 <!-- Recipe Card 2 -->
-                <div class="recipe-card overflow-hidden">
-                    <div class="relative h-48 sm:h-56 md:h-64 bg-gray-50 overflow-hidden rounded-2xl flex items-center justify-center p-4">
+                <div class="recipe-card">
+                    <div class="image-container">
                         <img src="public/images/biryani.webp" 
                              loading="lazy"
-                             alt="Aromatic chicken biryani with colorful spices and garnish" 
-                             class="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-500 ease-in-out">
+                             alt="Aromatic chicken biryani with colorful spices and garnish">
                     </div>
                     <div class="content">
-                        <div class="flex items-center gap-2 mb-4">
+                        <div class="tags-container">
                             <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">10 ingredients</span>
                             <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">60 min</span>
-                            <span class="tag-pill medium">Medium</span>
+                            <span class="tag-pill medium px-3 py-1 rounded-md text-sm">Medium</span>
                         </div>
-                        <h3 class="text-xl font-bold text-dark mb-2 font-choplin">Biryani</h3>
-                        <p class="text-dark/70 mb-4 font-inter">Fragrant rice, tender meat, and aromatic spices combine in this flavorful and easy-to-make biryani, perfect for a hearty meal.</p>
-                        <div class="flex items-center justify-between">
+                        <h3 class="title">Biryani</h3>
+                        <p class="description">Fragrant rice, tender meat, and aromatic spices combine in this flavorful and easy-to-make biryani, perfect for a hearty meal.</p>
+                        <div class="author-section">
                             <div class="flex items-center gap-2">
                                 <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Chef" class="w-8 h-8 rounded-full">
                                 <span class="text-sm text-dark/70">By Michael</span>
@@ -413,22 +411,21 @@
                 </div>
 
                 <!-- Recipe Card 3 -->
-                <div class="recipe-card overflow-hidden">
-                    <div class="relative h-48 sm:h-56 md:h-64 bg-gray-50 overflow-hidden rounded-2xl flex items-center justify-center p-4">
+                <div class="recipe-card">
+                    <div class="image-container">
                         <img src="public/images/fruit-salad.webp" 
                              loading="lazy"
-                             alt="Fresh fruit salad with avocado, lettuce, and crunchy cashews" 
-                             class="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-500 ease-in-out">
+                             alt="Fresh fruit salad with avocado, lettuce, and crunchy cashews">
                     </div>
                     <div class="content">
-                        <div class="flex items-center gap-2 mb-4">
+                        <div class="tags-container">
                             <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">7 ingredients</span>
                             <span class="bg-cream px-3 py-1 rounded-md text-sm text-dark/70 border border-dark/20">5 min</span>
-                            <span class="tag-pill easy">Easy</span>
+                            <span class="tag-pill easy px-3 py-1 rounded-md text-sm">Easy</span>
                         </div>
-                        <h3 class="text-xl font-bold text-dark mb-2 font-choplin">Fresh Fruit Salad</h3>
-                        <p class="text-dark/70 mb-4 font-inter">A vibrant salad featuring fresh avocado, crisp lettuce, shredded vegetables, and crunchy cashews, topped with a zesty dressing.</p>
-                        <div class="flex items-center justify-between">
+                        <h3 class="title">Fresh Fruit Salad</h3>
+                        <p class="description">A vibrant salad featuring fresh avocado, crisp lettuce, shredded vegetables, and crunchy cashews, topped with a zesty dressing.</p>
+                        <div class="author-section">
                             <div class="flex items-center gap-2">
                                 <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Chef" class="w-8 h-8 rounded-full">
                                 <span class="text-sm text-dark/70">By Emma</span>

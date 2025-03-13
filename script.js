@@ -423,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function() {
             mobileMenu.classList.toggle('hidden');
         });
     }
-});
+}); 
 
 // Add success animation styles
 const style = document.createElement('style');
