@@ -50,9 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Initialize Supabase client
-    const supabaseUrl = 'YOUR_SUPABASE_URL'
-    const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey)
+    const supabaseUrl = 'https://nrucuekfxsgsiguelnuy.supabase.co'
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ydWN1ZWtmeHNnc2lndWVsbnV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE4MzcwNDMsImV4cCI6MjA1NzQxMzA0M30.BfMvbOyB6AflVUWGyL88B7Eeo6rW9fXBbFVYnuHU3QM'
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
 
     // Animate cook counter
     function animateCounter(element, target, duration = 2000) {
@@ -73,52 +73,75 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCounter()
     }
 
+    // Email validation function
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email) && email.includes('.');
+    }
+
+    // Show error message
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.classList.remove('hidden');
+        formStatus.classList.remove('hidden');
+        setTimeout(() => {
+            errorMessage.classList.add('hidden');
+            formStatus.classList.add('hidden');
+        }, 5000);
+    }
+
     // Handle form submission
     waitlistForm.addEventListener('submit', async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         
-        const email = e.target.email.value
-        const submitButton = e.target.querySelector('button[type="submit"]')
+        const email = emailInput.value.trim();
+        const submitButton = waitlistForm.querySelector('button[type="submit"]');
+        
+        // Validate email
+        if (!isValidEmail(email)) {
+            showError('Please enter a valid email address');
+            return;
+        }
         
         // Disable form while submitting
-        submitButton.disabled = true
-        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...'
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
         
         try {
             // Insert email into Supabase
             const { data, error } = await supabase
                 .from('waitlist')
-                .insert([{ email, joined_at: new Date() }])
+                .insert([{ email }]);
 
-            if (error) throw error
+            if (error) {
+                if (error.code === '23505') { // Unique constraint violation
+                    showError('This email is already registered');
+                } else {
+                    showError('Something went wrong. Please try again.');
+                }
+                return;
+            }
 
-            // Show success message
-            successPopup.classList.remove('hidden')
-            setTimeout(() => {
-                popupContent.classList.remove('scale-95', 'opacity-0')
-            }, 100)
+            // Show success popup
+            successPopup.classList.remove('hidden');
+            popupContent.classList.remove('scale-95', 'opacity-0');
 
             // Update counter
-            const currentCount = parseInt(counter.textContent.replace(/,/g, ''))
-            animateCounter(counter, currentCount + 1)
+            const currentCount = parseInt(counter.textContent.replace(/,/g, ''));
+            animateCounter(counter, currentCount + 1);
 
             // Reset form
-            waitlistForm.reset()
+            waitlistForm.reset();
 
         } catch (error) {
-            console.error('Error:', error)
-            errorMessage.classList.remove('hidden')
-            formStatus.classList.remove('hidden')
-            setTimeout(() => {
-                errorMessage.classList.add('hidden')
-                formStatus.classList.add('hidden')
-            }, 5000)
+            console.error('Error:', error);
+            showError('Something went wrong. Please try again.');
         } finally {
             // Re-enable form
-            submitButton.disabled = false
-            submitButton.textContent = 'Join Waitlist'
+            submitButton.disabled = false;
+            submitButton.textContent = 'Join Waitlist';
         }
-    })
+    });
 
     // Handle popup close
     closePopupButton.addEventListener('click', () => {

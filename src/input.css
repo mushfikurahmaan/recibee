@@ -97,6 +97,41 @@
     .notification-card {
         @apply card-base p-4;
     }
+
+    /* Popup Styles */
+    #successPopup {
+        @apply fixed inset-0 z-50;
+        @apply flex items-center justify-center;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+
+    #successPopup.hidden {
+        display: none;
+    }
+
+    #popupContent {
+        @apply bg-white rounded-2xl p-4 sm:p-6 md:p-8;
+        @apply w-[90%] sm:w-[400px];
+        @apply max-w-[90vw] mx-auto;
+        transform: scale(1);
+        opacity: 1;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    #popupContent.scale-95 {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    /* Ensure popup content is scrollable on very small devices */
+    @media (max-height: 500px) {
+        #popupContent {
+            @apply max-h-[90vh] overflow-y-auto;
+        }
+    }
 }
 
 /* Custom animations */
