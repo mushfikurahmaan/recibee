@@ -24,19 +24,18 @@
 /* Custom components */
 @layer components {
     .btn-primary {
-        @apply bg-primary text-white px-6 py-3 rounded-xl transition-all font-semibold hover:-translate-y-0.5 hover:bg-[#FF8000];
-        transition: all 0.3s ease-in-out;
+        @apply bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#FF8000];
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .btn-secondary {
-        @apply bg-secondary text-white px-6 py-3 rounded-xl transition-all font-semibold hover:-translate-y-0.5 hover:bg-[#234C25];
-        transition: all 0.3s ease-in-out;
+        @apply bg-secondary text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#234C25];
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .btn-success {
         @apply bg-[#4CAF50] text-white px-6 py-3 rounded-xl font-semibold cursor-default;
-        transition: all 0.3s ease-in-out;
-        transform: translateY(0);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .tag-pill {
@@ -53,25 +52,34 @@
 
     /* Modern card styles */
     .card-base {
-        @apply bg-white rounded-2xl transition-all duration-300;
+        @apply bg-white rounded-2xl;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         border: 1px solid rgba(26, 26, 26, 0.1);
-    }
-
-    .card-base:hover {
-        @apply -translate-y-1;
-        box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
-        border-color: rgba(26, 26, 26, 0.15);
+        transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* Feature cards */
     .feature-card {
         @apply card-base p-6;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .feature-card:hover {
+        @apply -translate-y-1;
+        box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
+        border-color: rgba(26, 26, 26, 0.2);
     }
 
     /* Recipe cards */
     .recipe-card {
         @apply card-base overflow-hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .recipe-card:hover {
+        @apply -translate-y-1;
+        box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
+        border-color: rgba(26, 26, 26, 0.2);
     }
 
     .recipe-card .content {
@@ -81,6 +89,13 @@
     /* Testimonial cards */
     .testimonial-card {
         @apply card-base p-8;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .testimonial-card:hover {
+        @apply -translate-y-1;
+        box-shadow: 0 10px 30px -5px rgba(26, 26, 26, 0.1);
+        border-color: rgba(26, 26, 26, 0.2);
     }
 
     /* How It Works cards */
@@ -99,6 +114,11 @@
     /* Waitlist form card */
     .waitlist-card {
         @apply card-base p-8;
+        transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .waitlist-card:hover {
+        border-color: rgba(26, 26, 26, 0.2);
     }
 
     /* Notification cards */

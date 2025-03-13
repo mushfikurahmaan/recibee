@@ -121,25 +121,53 @@ document.addEventListener('DOMContentLoaded', function() {
         button.disabled = true;
         input.disabled = true;
 
-        // Fade out text only
-        const textSpan = document.createElement('span');
-        textSpan.style.opacity = '1';
-        textSpan.style.transition = 'opacity 0.3s ease';
-        textSpan.innerHTML = button.innerHTML;
+        // Create wrapper for smooth transition
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'relative';
+        wrapper.style.display = 'inline-block';
+        wrapper.style.width = '100%';
+        wrapper.style.height = '100%';
+        
+        // Create text elements for transition
+        const oldText = document.createElement('div');
+        oldText.innerHTML = button.innerHTML;
+        oldText.style.position = 'absolute';
+        oldText.style.width = '100%';
+        oldText.style.top = '50%';
+        oldText.style.transform = 'translateY(-50%) translateZ(0)';
+        oldText.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        oldText.style.opacity = '1';
+
+        const newText = document.createElement('div');
+        newText.innerHTML = '<i class="fas fa-check"></i> You\'re Set';
+        newText.style.position = 'absolute';
+        newText.style.width = '100%';
+        newText.style.top = '50%';
+        newText.style.transform = 'translateY(50%) translateZ(0)';
+        newText.style.opacity = '0';
+        newText.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+        // Set up the transition
+        wrapper.appendChild(oldText);
+        wrapper.appendChild(newText);
         button.innerHTML = '';
-        button.appendChild(textSpan);
+        button.appendChild(wrapper);
 
-        // Fade out current text
+        // Trigger the transition with slight delay
         setTimeout(() => {
-            textSpan.style.opacity = '0';
-        }, 0);
+            oldText.style.transform = 'translateY(-150%) translateZ(0)';
+            oldText.style.opacity = '0';
+            newText.style.transform = 'translateY(-50%) translateZ(0)';
+            newText.style.opacity = '1';
+        }, 50);
 
-        // Fade in new text
+        // Clean up after transition
         setTimeout(() => {
             button.innerHTML = '<i class="fas fa-check"></i> You\'re Set';
             button.classList.remove('btn-primary');
             button.classList.add('btn-success');
-        }, 300);
+            button.style.transition = 'background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        }, 650);
     }
 
     // Function to set loading state with animation
@@ -153,50 +181,105 @@ document.addEventListener('DOMContentLoaded', function() {
         // Disable button immediately
         button.disabled = true;
 
-        // Fade out text only
-        const textSpan = document.createElement('span');
-        textSpan.style.opacity = '1';
-        textSpan.style.transition = 'opacity 0.3s ease';
-        textSpan.innerHTML = button.innerHTML;
+        // Create wrapper for smooth transition
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'relative';
+        wrapper.style.display = 'inline-block';
+        wrapper.style.width = '100%';
+        wrapper.style.height = '100%';
+        
+        // Create text elements for transition
+        const oldText = document.createElement('div');
+        oldText.innerHTML = button.innerHTML;
+        oldText.style.position = 'absolute';
+        oldText.style.width = '100%';
+        oldText.style.top = '50%';
+        oldText.style.transform = 'translateY(-50%) translateZ(0)';
+        oldText.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        oldText.style.opacity = '1';
+
+        const newText = document.createElement('div');
+        newText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
+        newText.style.position = 'absolute';
+        newText.style.width = '100%';
+        newText.style.top = '50%';
+        newText.style.transform = 'translateY(50%) translateZ(0)';
+        newText.style.opacity = '0';
+        newText.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+        // Set up the transition
+        wrapper.appendChild(oldText);
+        wrapper.appendChild(newText);
         button.innerHTML = '';
-        button.appendChild(textSpan);
+        button.appendChild(wrapper);
 
-        // Fade out current text
+        // Trigger the transition with slight delay
         setTimeout(() => {
-            textSpan.style.opacity = '0';
-        }, 0);
+            oldText.style.transform = 'translateY(-150%) translateZ(0)';
+            oldText.style.opacity = '0';
+            newText.style.transform = 'translateY(-50%) translateZ(0)';
+            newText.style.opacity = '1';
+        }, 50);
 
-        // Fade in new text
+        // Clean up after transition
         setTimeout(() => {
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
-        }, 300);
+        }, 650);
     }
 
     // Function to reset button state with animation
     function resetButtonState(button) {
         if (!button) return;
         
-        // Fade out text only
-        const textSpan = document.createElement('span');
-        textSpan.style.opacity = '1';
-        textSpan.style.transition = 'opacity 0.3s ease';
-        textSpan.innerHTML = button.innerHTML;
+        // Create wrapper for smooth transition
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'relative';
+        wrapper.style.display = 'inline-block';
+        wrapper.style.width = '100%';
+        wrapper.style.height = '100%';
+        
+        // Create text elements for transition
+        const oldText = document.createElement('div');
+        oldText.innerHTML = button.innerHTML;
+        oldText.style.position = 'absolute';
+        oldText.style.width = '100%';
+        oldText.style.top = '50%';
+        oldText.style.transform = 'translateY(-50%) translateZ(0)';
+        oldText.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        oldText.style.opacity = '1';
+
+        const newText = document.createElement('div');
+        newText.innerHTML = 'Join Waitlist';
+        newText.style.position = 'absolute';
+        newText.style.width = '100%';
+        newText.style.top = '50%';
+        newText.style.transform = 'translateY(50%) translateZ(0)';
+        newText.style.opacity = '0';
+        newText.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+        // Set up the transition
+        wrapper.appendChild(oldText);
+        wrapper.appendChild(newText);
         button.innerHTML = '';
-        button.appendChild(textSpan);
+        button.appendChild(wrapper);
 
-        // Fade out current text
+        // Trigger the transition with slight delay
         setTimeout(() => {
-            textSpan.style.opacity = '0';
-        }, 0);
+            oldText.style.transform = 'translateY(-150%) translateZ(0)';
+            oldText.style.opacity = '0';
+            newText.style.transform = 'translateY(-50%) translateZ(0)';
+            newText.style.opacity = '1';
+        }, 50);
 
-        // Fade in new text
+        // Clean up after transition
         setTimeout(() => {
             button.innerHTML = 'Join Waitlist';
             button.classList.remove('btn-success');
             button.classList.add('btn-primary');
             button.disabled = false;
             button.style.width = ''; // Reset width
-        }, 300);
+            button.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        }, 650);
     }
 
     // Counter Animation
