@@ -8,16 +8,16 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
-        font-family: 'Bricolage Grotesque', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
 
     body {
-        font-family: 'Bricolage Grotesque', sans-serif;
+        font-family: 'Inter', sans-serif;
         background-color: #FFFFFF;
     }
 
     h1, h2, h3, h4, h5, h6 {
-        font-family: 'Bricolage Grotesque', sans-serif;
+        font-family: 'Inter', sans-serif;
         font-weight: 600;
     }
 
