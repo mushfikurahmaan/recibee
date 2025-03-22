@@ -423,6 +423,21 @@ document.addEventListener('DOMContentLoaded', function() {
             mobileMenu.classList.toggle('hidden');
         });
     }
+
+    // Progress bar functionality
+    const progressBar = document.getElementById('progress-bar');
+    
+    const updateProgressBar = () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        progressBar.style.width = scrollPercent + '%';
+    };
+    
+    // Update progress bar on scroll
+    window.addEventListener('scroll', updateProgressBar);
+    // Initial update
+    updateProgressBar();
 }); 
 
 // Add success animation styles

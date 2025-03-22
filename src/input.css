@@ -19,6 +19,11 @@
         font-family: 'Choplin', sans-serif;
         font-weight: 600;
     }
+
+    /* Progress bar styles */
+    #progress-bar {
+        transition: width 0.2s ease-out;
+    }
 }
 
 /* Custom components */
