@@ -13,8 +13,8 @@ module.exports = {
         accent: '#FFD166',      // Warm Yellow
       },
       fontFamily: {
-        choplin: ['Choplin', 'sans-serif'],
-        inter: ['Inter', 'sans-serif'],
+        sans: ['Bricolage Grotesque', 'sans-serif'],
+        bricolage: ['Bricolage Grotesque', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-fresh': 'linear-gradient(to right bottom, #FFFFFF, #FFF6E5)',
